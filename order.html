@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="alert error">Please DO NOT CLOSE THIS PAGE. It will automatically refresh once payment is received, and again once your account is created. Your password will be displayed on this page.</div>
+
+<h2>Order {{ order.id }}</h2>
+
+<h3>User: {{ order.name }}</h3>
+
+{% if order.paid == 1 %}
+    <div class="alert error">We've received your payment. Your account will be created soon, please wait.</div>
+    <h3>Status: PAID (PENDING CREATION)</h3>
+    <script type="text/javascript">
+        setInterval(function () {
+            window.location.reload(true)
+        }, 30000)
+    </script>
+{% elif order.paid == 2 %}
+    <h3>Status: PAID</h3>
+    {% if order.password != '' %}
+        {% if order.address[0] == 's' %}
+            <h3>Total paid: {{ order.cost }} STEEM</h3>
+        {% else %}
+            <h3>Total paid: {{ order.cost }} {{ order.pool.coin.upper() }}</h3>
+        {% endif %}
+        <h4>Account password:</h4>
+        <div class="address">
+            <span onClick="fnSelect(this)">{{ order.password }}</span>
+        </div>
+        <p>Please do the following: </p>
+        <ul>
+            <li>Go to <a href="https://steemit.com">STEEMIT.COM</a></li>
+            <li>Log in with the username <strong>{{ order.name }}</strong> and the password above</li>
+            <li>Click on your display picture in the top right, and click CHANGE PASSWORD</li>
+            <li>Change your password as instructed</li>
+            <li>Once you've changed your password, and can confirm you can log in with
+                the new password, click <strong>Destroy Password</strong> below to
+                remove the old password from our servers.
+            </li>
+
+
+        </ul>
+        <em>HELP: Getting <strong>Invalid owner authority</strong> or "invalid password"? Try using the OWNER KEY or POSTING KEY below as your password.</em>
+        <br/>
+        <a href="/destroy/{{ txid }}" style="color: red">Destroy Password and Keys (!)</a>
+        <hr/>
+        <h2>PRIVATE KEYS:</h2>
+        {% for k,v in keys.items() %}
+            <h4>{{ k }} key: </h4>
+            <div class="address"><span onClick="fnSelect(this)">{{ v }}</span></div><br/>
+        {% endfor %}
+    {% else %}
+        <h4>Password destroyed!</h4>
+    {% endif %}
+
+{% else %}
+    {% if order.expired %}
+        <div class="alert error">ALERT: This order has already expired. Do not send any more coins to the address.</div>
+    {% else %}
+        <h3>Expires in: {{ order.expires_in }}</h3>
+	<p>WARNING: If you're sending from an exchange, please make sure you're aware of the TX fees. ESPECIALLY POLONIEX AND BITTREX.</p>
+    {% endif %}
+    <h3>Status: NOT PAID</h3>
+    {% if order.address[0] == 's' %}
+	<center><img src="https://i.imgur.com/myYn8zY.png" width="500" /></center>
+        <h3>Send {{ order.cost }} STEEM to @anonsteem with this memo:</h3>
+    {% else %}
+        <h3>Send {{ order.cost }} {{ order.pool.coin.upper() }} to this address:</h3>
+    {% endif %}
+    <div class="address">
+        <span onClick="fnSelect(this)">{{ order.address }}</span>
+    </div>
+    <br/>
+    <a href="{{ coin_uri(order.pool.coin, order.address, order.cost) }}">Open In Wallet</a>
+    <div class="qr">
+        <img src="https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl={{ coin_uri(order.pool.coin, order.address, order.cost) }}" alt="QR CODE">
+    </div>
+    <script type="text/javascript">
+        setInterval(function() {window.location.reload(true)}, 30000)
+    </script>
+{% endif %}
+
+
+
+<script>
+
+function fnSelect(el) {
+    fnDeSelect();
+    if (document.selection) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+    else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(el);
+        window.getSelection().addRange(range);
+    }
+}
+
+function fnDeSelect() {
+    if (document.selection) document.selection.empty();
+    else if (window.getSelection)
+        window.getSelection().removeAllRanges();
+}
+</script>
+{% endblock %}

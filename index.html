@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block content %}
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800" rel="stylesheet" type="text/css">
+<link href="static/css/app.css" rel="stylesheet" type="text/css" />
+<div id="background-effect"></div>
+<div class="container">
+    <div class="vcenter">
+        <div class="logo">
+            <img src="static/img/anonsteem-logo.png" class="" alt="Logo">
+        </div>
+        <div class="text-center">
+            <p>WELCOME TO ANONSTEEM</p>
+        </div>
+        <h1>Current account price: </h1>
+        <h3> {{ STEEM_PRICE }}
+            <img class="coinprice" src="static/img/steem.png"> STEEM or {{ BTC_PRICE }}
+            <img class="coinprice" src="static/img/btc.png"> BTC or {{ LTC_PRICE }}
+            <img class="coinprice" src="static/img/ltc.png"> LTC</h3>
+        <p>Because of the low price, we accept 0 confirm transactions for a better experience</p>
+        <p>Orders expire after 15 minutes</p>
+        <form action="/newaccount" method="POST">
+            <div class="Input" class="Input-label">
+                <h2 for="user_name">Username you want</h3>
+                    <input type="text" id="user_name" class="Input-text" name="username" placeholder="username">
+            </div>
+            <h2>Choose currency</h3>
+                <div class="alert success">Did you know it's cheaper to pay via LTC? Litecoin is much faster, and has lower transaction fees, thus we
+                    reduce the price for LTC payments.</div>
+                <ul class="coinselect">
+                    <li>
+                        <input type="radio" id="steem_coin" name="coin" value="steem" checked>
+                        <label for="steem_coin">
+                            <img src="static/img/steem.png">STEEM ({{ STEEM_PRICE }})</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input type="radio" id="btc_coin" name="coin" value="btc">
+                        <label for="btc_coin">
+                            <img src="static/img/btc.png">BTC ({{ BTC_PRICE }})</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input type="radio" id="ltc_coin" name="coin" value="ltc">
+                        <label for="ltc_coin">
+                            <img src="static/img/ltc.png">LTC ({{ LTC_PRICE }})</label>
+                        <div class="check"></div>
+                    </li>
+                </ul>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                <br/>
+                <button class="anonsbutton">Buy Now</button>
+        </form>
+        <div class="row">
+            <h4>What is this?</h4>
+            <p>AnonSteem allows you to purchase new STEEM accounts using Bitcoin, Litecoin or Steem.
+                <br/>
+                <br/> We believe everyone has a right to privacy, and our service is designed to protect people who would otherwise
+                be vulnerable if they signed up on Steemit with their social media account.
+            </p>
+            <h4>Why do you charge for accounts? Aren't they free?</h4>
+            <p>No. they aren't free at all. Steemit.com pays your STEEM creation fee out of their own pocket, in exchange for
+                your phone number, email address, and social media such as reddit/facebook.</p>
+            <p>We let you pay that fee upfront to us, in-exchange for perfect privacy. We don't ask for any details.
+            </p>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+<script src="static/js/jquery-1.11.3.min.js"></script>
+<script src="static/js/animation.js"></script>

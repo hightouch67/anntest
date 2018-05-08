@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="static/img/favicon.png">
+    <title>AnonSteem</title>
+    <meta name="description" content="AnonSteem allows you to create STEEM accounts
+                    with total privacy. Buy an account with BTC or LTC fast and easy." />
+                    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link href="static/css/app.css" rel="stylesheet" type="text/css" />
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+    <script src="static/js/animation.js"></script>
+</head>
+
+<body>
+    <div class="top">
+        <a href="/">
+            <div class="logo container"></div>
+        </a>
+    </div>
+    <div class="container">
+        <!--<div class="alert error">Update April 4th 2017 - We're back! It's safe to create more accounts, we're <a href="https://steemit.com/development/@anonsteem/anonsteem-is-finally-back">updated for HF18.</a> <br/> If your order "expired" but you have paid, please email us (email at the bottom of the page).</div>-->
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+        <div class="alert {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock %}
+    </div>
+    <div class="container">
+        <br/>
+        <hr/>
+        <!-- <div class="alert error">Someguy123 is away between the 26th of March (Monday) and the 3rd of April (Tuesday). AnonSteem support messages will not be answered during this time.</div> -->
+        <footer>
+            <a href="/recovery">Stolen Account Recovery</a>
+        </footer>
+        <footer>
+            <strong>BEFORE EMAILING, CHECK YOU SENT THE RIGHT AMOUNT VIA
+                <a href="https://chain.so">A BLOCK EXPLORER</a>
+            </strong>
+        </footer>
+        <footer>Problems? anonsteem {at} someguy123 dot com</footer>
+        <footer>Hidden Service:
+            <a href="http://steemlohs6air4h2.onion">steemlohs6air4h2.onion</a> |
+            <a href="http://anonsteemnqvfma2.onion">anonsteemnqvfma2.onion</a>
+        </footer>
+        <br/>
+    </div>
+</body>
+
+</html>
